@@ -20,13 +20,29 @@ module.exports = {
   module: {
     rules: [
       {
+        loader: require.resolve('file-loader'),
+        exclude:[/\.js$/,/\.jsx$/,/\.html$/,/\.json$/,/\.scss$/,/\.css$/],
+        options:{
+          name:'static/media/[name].[hash:8].[ext]',
+        },
+      },
+      {
         test: /\.js|jsx$/,
         exclude: /node_modules/,// 屏蔽不需要处理的文件（文件夹）（可选）
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options:{
+          plugins:[
+            ['import', { libraryName: "antd", style: 'css' }],
+          ]
+        }
       },
       {
         test: /\.css$/,
         use: ['style-loader','css-loader']
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader','css-loader','sass-loader'],
       }
     ]
   },
